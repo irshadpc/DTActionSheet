@@ -7,28 +7,51 @@
 //
 
 #import "ViewController.h"
-
-@interface ViewController ()
-
-@end
+#import "DTActionSheet.h"
 
 @implementation ViewController
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+-(IBAction)showSheet{
+    
+    UIPickerView *pickerView = [[UIPickerView alloc]initWithFrame:CGRectMake(0, 44, 320, 50*3+5)];
+    pickerView.delegate = self;
+    pickerView.dataSource = self;
+    pickerView.showsSelectionIndicator = YES;
+    
+    DTActionSheet *sheet = [[DTActionSheet alloc] initWithContentView:pickerView sheetTitle:@"Demo"];
+    [sheet showInView:self.view];
 }
 
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
+    return 4;
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
+    switch (component) {
+        case 1:
+            return 100;
+            break;
+        case 3:
+            return 1;
+            break;
+        default:
+            return 10;
+            break;
+    }
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
+    switch (component) {
+        case 2:
+            return [NSString stringWithFormat:@".%d",row];
+            break;
+        case 3:
+            return @"kg";
+            break;        
+        default:
+            return [NSString stringWithFormat:@"%d",row];
+            break;            
+    }
 }
 
 @end

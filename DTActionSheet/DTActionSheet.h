@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  DTActionSheet.h
 //  DTActionSheet
 //
 //  Created by 但 江 on 12-6-18.
@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController<UIPickerViewDelegate,UIPickerViewDataSource>
+@interface DTActionSheet : UIActionSheet
+
+-(id)initWithContentView:(UIView*)contentView sheetTitle:(NSString*)title;
 
 @end
