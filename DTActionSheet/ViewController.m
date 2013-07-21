@@ -3,30 +3,43 @@
 //  DTActionSheet
 //
 //  Created by 但 江 on 12-6-18.
-//  Copyright (c) 2012年 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012年 Dan Thought Studio. All rights reserved.
 //
 
 #import "ViewController.h"
 #import "DTActionSheet.h"
 
+@interface ViewController ()
+
+@property (strong, nonatomic) UIPickerView *pickerView;
+@property (strong, nonatomic) DTActionSheet *actionSheet;
+@property (weak, nonatomic) IBOutlet UILabel *weightLabel;
+
+@end
+
 @implementation ViewController
 
--(IBAction)showSheet{
+- (void)viewDidLoad {
+    [super viewDidLoad];
     
-    UIPickerView *pickerView = [[UIPickerView alloc]initWithFrame:CGRectMake(0, 44, 320, 50*3+5)];
-    pickerView.delegate = self;
-    pickerView.dataSource = self;
-    pickerView.showsSelectionIndicator = YES;
+    self.pickerView = [[UIPickerView alloc]initWithFrame:CGRectMake(0, 44, 320, 50*3+5)];
+    self.pickerView.delegate = self;
+    self.pickerView.dataSource = self;
+    self.pickerView.showsSelectionIndicator = YES;
     
-    DTActionSheet *sheet = [[DTActionSheet alloc] initWithContentView:pickerView sheetTitle:@"Demo"];
-    [sheet showInView:self.view];
+    self.actionSheet = [[DTActionSheet alloc] initWithContentView: self.pickerView sheetTitle:@"Demo"];
+    self.actionSheet.delegate = self;
 }
 
-- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
+-(IBAction)showSheet {
+    [self.actionSheet showInView:self.view];
+}
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
     return 4;
 }
 
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
     switch (component) {
         case 1:
             return 100;
@@ -40,7 +53,7 @@
     }
 }
 
-- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
     switch (component) {
         case 2:
             return [NSString stringWithFormat:@".%d",row];
@@ -53,5 +66,21 @@
             break;            
     }
 }
+- (void)actionSheet:(UIActionSheet *)actionSheet willDismissWithButtonIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == DTActionSheetButtonIndexDone) {
+        NSLog(@"Click Done Button");
+        int tens  = [self.pickerView selectedRowInComponent:0];
+        int single = [self.pickerView selectedRowInComponent:1];
+        int scale =  [self.pickerView selectedRowInComponent:2];
+        float weight = tens * 10 + single + scale * 0.1;
+        self.weightLabel.text = [NSString stringWithFormat:@"%0.1f kg", weight];
+    } else if (buttonIndex == DTActionSheetButtonIndexCancel) {
+        NSLog(@"Click Cancel Button");
+    }
+}
 
+- (void)viewDidUnload {
+    [self setWeightLabel:nil];
+    [super viewDidUnload];
+}
 @end

@@ -3,7 +3,7 @@
 //  DTActionSheet
 //
 //  Created by 但 江 on 12-6-18.
-//  Copyright (c) 2012年 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012年 Dan Thought Studio. All rights reserved.
 //
 
 #import "DTActionSheet.h"
@@ -18,8 +18,7 @@
 @synthesize contentView=_contentView;
 @synthesize toolBar=_toolBar;
 
--(id)initWithContentView:(UIView*)contentView sheetTitle:(NSString*)title;
-{
+-(id)initWithContentView:(UIView*)contentView sheetTitle:(NSString*)title {
     self = [super init];
     if (self) 
     {
@@ -29,6 +28,7 @@
         {
             [self addButtonWithTitle:@" "];
         }
+        
         _toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
         _toolBar.barStyle = UIBarStyleBlackOpaque;
         
@@ -47,7 +47,7 @@
                                                                        target:self 
                                                                        action:@selector(cancel)];
         
-        UIBarButtonItem *fixedButton  = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace 
+        UIBarButtonItem *fixedButton  = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
                                                                                       target:nil 
                                                                                       action:nil];
         
@@ -59,13 +59,12 @@
     return self;
 }
 
--(void)done
-{
-    [self dismissWithClickedButtonIndex:0 animated:YES];
+-(void)done {
+    [self dismissWithClickedButtonIndex:DTActionSheetButtonIndexDone animated:YES];
 }
--(void)cancel
-{
-    [self dismissWithClickedButtonIndex:0 animated:YES];
+
+-(void)cancel {
+    [self dismissWithClickedButtonIndex:DTActionSheetButtonIndexCancel animated:YES];
 }
 
 
